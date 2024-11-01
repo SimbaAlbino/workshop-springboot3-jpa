@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,9 +27,11 @@ public class User implements Serializable {
 	private String email;
 	private String phone;
 	private String password;
-
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "client") //atributo do outro lado da associação
 	private List<Order> orders = new ArrayList<>();
+	//é necessário usar o Jsonignore, em algum dos lados, para que não ocorra um loop de chamada ao listar no get do usuario
 
 	public User() {
 		// Empty constructor for framework
