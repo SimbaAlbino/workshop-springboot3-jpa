@@ -9,26 +9,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.educandoweb.course.entities.User;
-import com.educandoweb.course.services.UserService;
+import com.educandoweb.course.entities.Category;
+import com.educandoweb.course.services.CategoryService;
 
 @RestController
 @RequestMapping(value = "/categories")
 public class CategoryResource {
 	
 	@Autowired
-	private UserService service; // precisa estar reg como componente do spring
+	private CategoryService service; // precisa estar reg como componente do spring
 	
 	//criando endpoint para acessar os usuários
 	@GetMapping
-	public ResponseEntity<List<User>> findAll() {
-		List<User> list = service.findAll();
+	public ResponseEntity<List<Category>> findAll() {
+		List<Category> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/{id}") //requisição do tipo get, aceitando uma id dentro da url
-	public ResponseEntity<User> findById(@PathVariable Long id) {
-		User obj = service.findById(id);
+	public ResponseEntity<Category> findById(@PathVariable Long id) {
+		Category obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 }
