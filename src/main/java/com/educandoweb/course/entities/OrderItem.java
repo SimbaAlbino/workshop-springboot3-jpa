@@ -17,6 +17,7 @@ public class OrderItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@EmbeddedId
+	@JsonIgnore
 	private OrderItemPK id = new OrderItemPK(); // sempre que for criar uma classe aux que é um id composto
 	
 	private Integer quantity;
@@ -72,6 +73,10 @@ public class OrderItem implements Serializable {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+	
+	public Double getSubTotal() { //precisa colocar o get, para aparecer no res do json
+		return price * quantity;
 	}
 
 	@Override
