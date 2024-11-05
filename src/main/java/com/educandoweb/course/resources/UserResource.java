@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,5 +46,12 @@ public class UserResource {
 				.buildAndExpand(obj.getId()).toUri(); //recebe o /users / o caminho novo que inseriu
 		return ResponseEntity.created(uri).body(obj); 
 		// espera URI - 201 - é esperado que contenha um cabeçalho location, contendo um ender do novo rec
+	}
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id)  {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+		//código 204, quando não temos conteúdo
 	}
 }
