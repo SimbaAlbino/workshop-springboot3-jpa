@@ -27,7 +27,7 @@ public class Order implements Serializable {
 
 	// anotações pra dizer que é uma tabela do bd
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // autoincremento
 	private Long id;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
