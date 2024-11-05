@@ -26,6 +26,7 @@ public class UserResource {
 	private UserService service; // precisa estar reg como componente do spring
 	
 	//criando endpoint para acessar os usuários
+	
 	@GetMapping // se chamar com o get, ele retornará todos os users
 	public ResponseEntity<List<User>> findAll() {
 		List<User> list = service.findAll();
