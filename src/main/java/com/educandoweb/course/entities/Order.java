@@ -8,7 +8,6 @@ import java.util.Set;
 
 import com.educandoweb.course.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,7 +37,7 @@ public class Order implements Serializable {
 	@JoinColumn(name = "client_id")
 	private User client;
 	
-	@OneToMany(mappedBy = "id.order") //para o pedido conhecer seus itens
+	@OneToMany(mappedBy = "id.order") //para o pedido conhecer seus itens OrdItmPK -> ORder
 	private Set<OrderItem> items = new HashSet<>();
 
 	public Order() {
