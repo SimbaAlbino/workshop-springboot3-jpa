@@ -4,14 +4,17 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.educandoweb.course.entities.User;
 import com.educandoweb.course.repositories.UserRepository;
+import com.educandoweb.course.services.exceptions.DatabaseException;
 import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
 
 //@Component //registra a classe como um componente do spring para poder ser injetado no autowired
-@Service //o de cima semanticamente específico
+@Service // o de cima semanticamente específico
 public class UserService {
 
 	@Autowired
@@ -20,22 +23,30 @@ public class UserService {
 	public List<User> findAll() {
 		return repository.findAll();
 	}
-	
+
 	public User findById(Long id) {
 		Optional<User> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ResourceNotFoundException(id)); //retorna o objeto do tipo User que estiver dentro do optional
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id)); // retorna o objeto do tipo User que estiver
+																			// dentro do optional
 	}
-	
+
 	public User insert(User obj) {
 		return repository.save(obj);
 	}
-	
+
 	public void delete(Long id) {
-		repository.deleteById(id);
+		try {
+			repository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DatabaseException(e.getMessage()); //Passandp exception da própria camada de serviço
+		}
 	}
-	
+
 	public User update(Long id, User obj) {
-		User entity = repository.getReferenceById(id); //deixar um obj monitorado pelo jpa para depois efetuar uma op no bd
+		User entity = repository.getReferenceById(id); // deixar um obj monitorado pelo jpa para depois efetuar uma op
+														// no bd
 		updateData(entity, obj);
 		return repository.save(entity);
 	}
